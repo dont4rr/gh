@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Гражданско образование: Презентация</title>
+    <style>
+        /* Общи стилове */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        header, footer {
+            background: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        nav a.active {
+            font-weight: bold;
+            color: #FF5722;
+            border-bottom: 2px solid #FF5722;
+        }
+
+        section {
+            padding: 15px;
+            margin: 15px;
+            background: #f4f4f4;
+            border-radius: 5px;
+        }
+
+        /* Стилове за модалното прозорче */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 60%;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Анимации за секции при скролиране */
+        .section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Гражданско образование</h1>
+        <p>Презентация за <strong>Държавни институции</strong>, <strong>Правна система</strong>, <strong>Права и задължения на гражданите</strong></p>
+        <nav>
+            <a href="institutions.html">Институции</a>
+            <a href="Pravnacictema.html">Правна система</a>
+            <a href="PravaZad.html">Права и задължения</a>
+        </nav>
+    </header>
+
+    <input type="text" id="searchInput" placeholder="Търсене..." onkeyup="searchInPage()">
+
+    <section id="introduction" class="section">
+        <h2 onclick="toggleSection('introduction')">Въведение</h2>
+        <p>Тази презентация представя основните държавни институции, правната система и правата и задълженията на гражданите.</p>
+    </section>
+
+    <section id="institutions" class="section">
+        <h2 onclick="toggleSection('institutions')">Държавни институции</h2>
+        <p>Описание на ключовите държавни институции, като например Президентството, Парламента и Съда.</p>
+        <ul>
+            <li><strong>Президентство:</strong> Роля и функции.</li>
+            <li><strong>Парламент:</strong> Как се избира и какви са основните му задачи.</li>
+            <li><strong>Съдебна власт:</strong> Видове съдилища и тяхната функция.</li>
+        </ul>
+    </section>
+
+    <section id="law" class="section">
+        <h2 onclick="toggleSection('law')">Правна система</h2>
+        <p>Основна информация за правната система, как се създават закони и ролята на конституцията.</p>
+    </section>
+
+    <section id="rights" class="section">
+        <h2 onclick="toggleSection('rights')">Права и задължения на гражданите</h2>
+        <p>Кратко представяне на основните права и задължения на гражданите в държавата.</p>
+        <ul>
+            <li><strong>Право на свобода на словото:</strong> Значение и граници.</li>
+            <li><strong>Право на гласуване:</strong> Как и кога могат гражданите да участват в избори.</li>
+            <li><strong>Задължения като данъци:</strong> Основни задължения на гражданите.</li>
+        </ul>
+    </section>
+
+    <!-- Модално прозорче -->
+    <button onclick="openModal()">Научи повече за правната система</button>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Допълнителна информация за правната система</h2>
+            <p>Правната система представлява цялост от закони и правила, които регулират отношенията между гражданите и институциите.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>Автори: Николай Пенчев, Киро, Мелих</p>
+    </footer>
+
+    <script>
+        // Активиране на текущия линк в навигационното меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const currentLocation = window.location.href;
+            const menuItems = document.querySelectorAll("nav a");
+
+            menuItems.forEach(item => {
+                if (item.href === currentLocation) {
+                    item.classList.add("active");
+                }
+            });
+
+            // Приветствено съобщение при зареждане на страницата
+            if (!localStorage.getItem('welcomeShown')) {
+                alert("Добре дошли!");
+                localStorage.setItem('welcomeShown', 'true');
+            }
+        });
+
+        // Функция за показване и скриване на секциите при клик върху заглавието
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.style.display = section.style.display === "none" ? "block" : "none";
+        }
+
+        // Модално прозорче
+        function openModal() {
+            document.getElementById("modal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("modal").style.display = "none";
+        }
+
+        // Анимация при скролиране
+        document.addEventListener("DOMContentLoaded", () => {
+            const sections = document.querySelectorAll(".section");
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+
+        // Търсене в страницата
+        function searchInPage() {
+            const query = document.getElementById("searchInput").value.toLowerCase();
+            const sections = document.querySelectorAll("section");
+
+            sections.forEach(section => {
+                section.style.display = section.innerText.toLowerCase().includes(query) ? "block" : "none";
+            });
+        }
+
+    </script>
+</body>
+</html>
